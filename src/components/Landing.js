@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, Button, TextInput } from 'react-native';
+import { Text, View, Button, TextInput, AsyncStorage } from 'react-native';
 
-import firebase from '../firebase';
+import firebase, { auth } from '../firebase';
 // import { auth, database, googleAuthProvider } from '../firebase';
 
 class Landing extends Component {
@@ -17,10 +17,11 @@ class Landing extends Component {
     const email = this.state.email;
     const pass = this.state.password;
     try {
-      await firebase.auth()
+      await auth
             .createUserWithEmailAndPassword(email, pass);
+      await AsyncStorage.setItem('@Auth:token', 'signedIn');
 
-      console.log(firebase.auth());
+      console.log(auth);
       console.log('Account created');
 
         // Navigate to the Home page, the user is auto logged in
@@ -34,11 +35,10 @@ class Landing extends Component {
     const email = this.state.email;
     const pass = this.state.password;
     try {
-      await firebase.auth()
+      await auth
             .signInWithEmailAndPassword(email, pass);
-
-      console.log('Logged In!');
-
+      const value = await AsyncStorage.getItem('@Auth:token');
+      console.log(value);
         // Navigate to the Home page
     } catch (error) {
       console.log(error.toString());
@@ -48,7 +48,10 @@ class Landing extends Component {
 
   async logout() {
     try {
-      await firebase.auth().signOut();
+      await auth.signOut();
+      await AsyncStorage.setItem('@Auth:token', '');
+      const value = await AsyncStorage.getItem('@Auth:token');
+      console.log(value);
 
         // Navigate to login view
     } catch (error) {
@@ -74,6 +77,7 @@ class Landing extends Component {
 
         <Button title="signup" onPress={this.signup.bind(this)} />
         <Button title="login" onPress={this.login.bind(this)} />
+        <Button title="logout" onPress={this.logout.bind(this)} />
       </View>
 
 
