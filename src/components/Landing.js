@@ -11,52 +11,31 @@ class Landing extends Component {
       email: '',
       password: '',
     };
+    this.handleLogin.bind(this);
+    this.handleSignup.bind(this);
   }
 
-  async signup() {
+  handleLogin() {
+    // const email = this.state.email;
+    // const password = this.state.password;
+    const { email, password } = this.state;
+    console.log(email);
+    this.props.login(email, password);
+    this.setState({
+      email: '',
+      password: '',
+    });
+  }
+
+  handleSignup() {
     const email = this.state.email;
-    const pass = this.state.password;
-    try {
-      await auth
-            .createUserWithEmailAndPassword(email, pass);
-      await AsyncStorage.setItem('@Auth:token', 'signedIn');
-
-      console.log(auth);
-      console.log('Account created');
-
-        // Navigate to the Home page, the user is auto logged in
-    } catch (error) {
-      console.log(error.toString());
-    }
-  }
-
-
-  async login() {
-    const email = this.state.email;
-    const pass = this.state.password;
-    try {
-      await auth
-            .signInWithEmailAndPassword(email, pass);
-      const value = await AsyncStorage.getItem('@Auth:token');
-      console.log(value);
-        // Navigate to the Home page
-    } catch (error) {
-      console.log(error.toString());
-    }
-  }
-
-
-  async logout() {
-    try {
-      await auth.signOut();
-      await AsyncStorage.setItem('@Auth:token', '');
-      const value = await AsyncStorage.getItem('@Auth:token');
-      console.log(value);
-
-        // Navigate to login view
-    } catch (error) {
-      console.log(error);
-    }
+    const password = this.state.password;
+    console.log(email);
+    this.props.signup(email, password);
+    // this.setState({
+    //   email: '',
+    //   password: '',
+    // });
   }
 
   render() {
@@ -75,9 +54,8 @@ class Landing extends Component {
           value={this.state.password}
         />
 
-        <Button title="signup" onPress={this.signup.bind(this)} />
-        <Button title="login" onPress={this.login.bind(this)} />
-        <Button title="logout" onPress={this.logout.bind(this)} />
+        <Button title="signup" onPress={() => this.handleSignup()} />
+        <Button title="login" onPress={() => this.handleLogin()} />
       </View>
 
 
