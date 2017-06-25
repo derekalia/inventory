@@ -5,6 +5,9 @@ import {
   Button,
   TextInput
 } from 'react-native';
+import firebase from '../firebase'
+
+var database = firebase.database();
 
 class Item extends Component {
   onLearnMore = (user) => {
@@ -16,6 +19,12 @@ class Item extends Component {
       color: '',
       cat: ''
   }
+
+writeUserData() {
+  firebase.database().ref('test/').set({
+    working: 'yes'
+  });
+}
 
   render() {
     return (
@@ -40,7 +49,8 @@ class Item extends Component {
       />
 
       <Button
-        title={'Submit'}        
+        title={'Submit'}   
+        onPress={()=>this.writeUserData()}     
       />
           </View>
     );
