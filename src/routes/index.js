@@ -1,10 +1,31 @@
 import React from 'react';
-import {TabNavigator} from 'react-navigation';
+import {TabNavigator,StackNavigator} from 'react-navigation';
 import { Icon } from 'react-native-elements'
 
+import Feed from '../screens/Feed';
+import UserDetail from '../screens/UserDetail';
+import Item from '../screens/Item'
+import Box from '../screens/Box'
+
 import Home from '../screens/Home'
-import Profile from '../screens/Profile'
 import Search from '../screens/Search'
+
+
+export const FeedStack = StackNavigator({
+  Feed: {
+    screen: Feed,
+  },
+  Details: {
+    screen: UserDetail,
+  },
+  Item: {
+      screen: Item,
+  },
+  Box: {
+      screen: Box,
+  }
+});
+
 
 export const Tabs = TabNavigator({
     Home:{
@@ -21,11 +42,11 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name='search' size={25} color={tintColor}/>
         }
     },
-    Profile: {
-        screen: Profile,
+    Add: {
+        screen: FeedStack,    
         navigationOptions:{
-            tabBarlabel: 'Profile',
-            tabBarIcon: ({tintColor}) => <Icon name='account-circle' size={25} color={tintColor}/>
+            tabBarlabel: 'Add',
+            tabBarIcon: ({tintColor}) => <Icon name='add' size={25} color={tintColor}/>
         }
     }
 },
