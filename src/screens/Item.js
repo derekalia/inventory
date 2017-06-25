@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Button, TextInput } from 'react-native';
+
 import firebase from '../firebase';
 
 var database = firebase.database();
