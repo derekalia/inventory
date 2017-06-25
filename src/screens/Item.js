@@ -13,7 +13,8 @@ class Item extends Component {
     name: '',
     color: '',
     category: '',
-    img: 'pic.png'
+    img: 'pic.png',
+    box: [],
   };
 
   pushItem() {
@@ -25,7 +26,28 @@ class Item extends Component {
     });
   }
 
+  getBox(number) {
+    var number = 0; // hard-coded to 0
+    var data;
+    firebase.database().ref('/boxes/').once('value').then((snapshot) => {
+      console.log("Boxes are ", snapshot.val());
+      data = snapshot.val();
+      let array = [];
+      for(var keys in data) {
+        console.log(keys)
+        array.push(data[keys]);
+      }
+      return array
+    }).then((array) => {
+      console.log("line 41", array)
+      this.setState({
+        box: array
+      })
+    })
+  }
+
   render() {
+    console.log(this.state.box)  
     return (
       <View>
         <Text>Name</Text>
@@ -47,7 +69,9 @@ class Item extends Component {
           value={this.state.category}
         />
 
+        <Button title={'Retrieve'} onPress= {() => this.getBox()} />
         <Button title={'Submit'} onPress={() => this.pushItem()} />
+        {this.state.box.length ? this.state.box.map((box) => {return <Text>Name: {box.name}, Location: {box.location}</Text> }) : null}
       </View>
     );
   }
