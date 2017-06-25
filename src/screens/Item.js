@@ -1,58 +1,54 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  Button,
-  TextInput
-} from 'react-native';
-import firebase from '../firebase'
+import { Text, View, Button, TextInput } from 'react-native';
+import firebase from '../firebase';
 
 var database = firebase.database();
 
 class Item extends Component {
-  onLearnMore = (user) => {
+  onLearnMore = user => {
     this.props.navigation.navigate('Details', { ...user });
   };
 
   state = {
-      name: 'test',
-      color: '',
-      cat: ''
-  }
+    name: '',
+    color: '',
+    category: '',
+    img: 'pic.png'
+  };
 
-writeUserData() {
-  firebase.database().ref('test/').set({
-    working: 'yes'
-  });
-}
+  pushItem() {
+    firebase.database().ref('items/').push({
+      name: this.state.name,
+      color: this.state.color,
+      category: this.state.category,
+      img: this.state.img
+    });
+  }
 
   render() {
     return (
       <View>
-          <Text>Name</Text>
-           <TextInput
-        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-        onChangeText={(name) => this.setState({name})}
-        value={this.state.name}
-      />
-      <Text>Color</Text>
-       <TextInput
-        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-        onChangeText={(color) => this.setState({color})}
-        value={this.state.color}
-      />
-      <Text>Category</Text>
-       <TextInput
-        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-        onChangeText={(cat) => this.setState({cat})}
-        value={this.state.cat}
-      />
+        <Text>Name</Text>
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={name => this.setState({ name })}
+          value={this.state.name}
+        />
+        <Text>Color</Text>
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={color => this.setState({ color })}
+          value={this.state.color}
+        />
+        <Text>Category</Text>
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={category => this.setState({ category })}
+          value={this.state.category}
+        />
 
-      <Button
-        title={'Submit'}   
-        onPress={()=>this.writeUserData()}     
-      />
-          </View>
+        <Button title={'Submit'} onPress={() => this.pushItem()} />
+      </View>
     );
   }
 }
