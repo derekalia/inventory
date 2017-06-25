@@ -1,17 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View , AsyncStorage} from 'react-native';
 import Landing from './src/components/Landing';
-import { StackNavigator } from 'react-navigation';
 import { Tabs } from './src/routes';
 
 export default class App extends React.Component {
-  render() {
+    render() {
+      // try {
+      // const loggedIn = await AsyncStorage.getItem('@Auth:token');
+      // }catch(error){
+      //   console.log(error) 
+      // }
+      // console.log(loggedIn) 
     return (
-      <View>
-        <Tabs />
-        <Landing />
-      </View>
-
+      // {loggedIn ? <Tabs />  : 
+      // <View>
+      //   <Landing />              
+      // </View>}
+               <Tabs />
+              
     );
   }
 }
